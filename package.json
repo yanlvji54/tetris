@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc --watch ./src/index",
-    "compile": "webpack"
+    "dev": "webpack --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -18,7 +17,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "core-js": "2"
+    "browser-sync": "^2.26.7",
+    "core-js": "2",
+    "jquery-ts": "^2.1.1"
   },
   "author": "",
   "license": "ISC"
