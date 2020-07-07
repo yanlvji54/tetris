@@ -1,7 +1,6 @@
-import config from './config/config'
-import { border } from './core/border';
-
-const game = new border('#app', config.borderConfig);
+import config from './config/config';
+import { Game } from './core/game';
+const game = new Game();
 game.init();
-game.createBlocks();
-game.blockDrop();
+
+
