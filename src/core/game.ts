@@ -8,6 +8,9 @@ export class Game {
   init () {
     this.options();
     this.border = new Border('#app', config.borderConfig);
+    this.createBlock();
+  }
+  createBlock () {
     this.block = new Block();
     this.bindBlock();
     this.block.createBlock();
@@ -17,6 +20,10 @@ export class Game {
       set: (recObj:object, key:string, value:Array<number>):any => {
         recObj[key] = value;
         if (key === 'position') this.border.drawBlock(value);
+        if (key === 'getBottom'){ 
+          this.border.blockGetBottom(this.block.position);
+          this.createBlock();
+        }
         return true;
       }
     })

@@ -14,6 +14,7 @@ export class Block {
   originY:number = 1;
   position:Array<number> = [];
   shape: number = -1;
+  getBottom: boolean = false;
   // 创建方块
   createBlock () {
     this.shape = Math.floor(Math.random() * 7);
@@ -42,6 +43,7 @@ export class Block {
     let timer = setInterval(()=> {
       if (Math.max(...this.position) >= 190) {
         clearInterval(timer);
+        this.getBottom = true;
         return;
       }
       this.originY += 1;

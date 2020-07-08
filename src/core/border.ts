@@ -9,7 +9,7 @@ interface borderConfig {
 export class Border {
   length:number;
   height:number;
-  stacks: Array<number>;
+  stacks: Array<number> = [];
   constructor (el:string, config:borderConfig) {
     this.length = config.length || 100;
     this.height = config.height || 200;
@@ -34,22 +34,16 @@ export class Border {
       $(`.net${element}`).addClass("red");
     });
   };
-  // blockDrop () {
-    // let position;
-    // let timer = setInterval(() => {
-    //   position = this.block.drop();
-    //   this.drawBlock(position);
-    //   // 190为底部边界， 判定结束
-    //   if (Math.max(...position) >= 190) {
-    //     clearInterval(timer);
-    //     // this.blockGetBottom();
-    //   }
-    // }, 500)
-  // };
-  // blockGetBottom () {
-  //   // 触底之后 1、方块清除  2、消除判定 3、创建新方块
-  //   this.stacks = [...this.stacks, ...this.block.position];
-  // };
+  drawBottom (positions:Array<number>) {
+    positions.forEach(element => {
+      $(`.net${element}`).addClass("blue");
+    });
+  }
+  blockGetBottom (positions: Array<number>) {
+    // 触底之后 1、方块清除  2、消除判定 3、创建新方块
+    this.stacks = [...this.stacks, ...positions];
+    this.drawBottom(this.stacks);
+  };
   // clearLine () {
   //   new Array()
   // }
