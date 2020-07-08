@@ -4,39 +4,42 @@ import { Border } from './border';
 import { Block } from './block';
 export class Game {
   border: Border;
-  block: Block;
+  block: any;
   init () {
     this.options();
     this.border = new Border('#app', config.borderConfig);
     this.block = new Block();
+    this.bindBlock();
     this.block.createBlock();
   }
   bindBlock () {
-    new Proxy(this.block.position, {
+    this.block = new Proxy(this.block, {
       set: (recObj:object, key:string, value:Array<number>):any => {
         recObj[key] = value;
-        this.border.drawBlock(value);
+        if (key === 'position') this.border.drawBlock(value);
+        return true;
       }
     })
   }
   options () {
+    const _self = this;
     $(document).keydown(function(event){
       switch(event.keyCode){
         case 37:
         case 100:
-            // oH3.style.left =  oH3.offsetLeft - 10 + "px";
+          _self.block.turnLeftOrRight(0);
         break;
         case 38:
         case 104:
-            // oH3.style.top = oH3.offsetTop - 10 + "px";
+          _self.block.transform();
         break;
         case 39:
         case 102:
-            // oH3.style.left = oH3.offsetLeft + 10 + "px";
+          _self.block.turnLeftOrRight(1);
         break;
         case 40:
         case 98:
-            // oH3.style.top = oH3.offsetTop + 10 + "px";
+          _self.block.dropImmediately();
         break;
         default:
             console.log("请按上下左右键");
