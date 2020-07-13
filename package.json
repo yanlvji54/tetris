@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch",
-    "start": "browser-sync --server --file */**"
+    "start": "browser-sync --server --file */**",
+    "build": "cp -rf dist/. tetris/dist && "
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
