@@ -13,8 +13,10 @@ export class Block {
   originX:number = 4;
   originY:number = 1;
   position:Array<number> = [];
-  shape: number = -1;
+  shape: number = 0;
   getBottom: boolean = false;
+  bottomLines: Array<number>;
+  timer: any;
   // 创建方块
   createBlock () {
     this.shape = Math.floor(Math.random() * 7);
@@ -40,29 +42,32 @@ export class Block {
 
   // 利用原点位置更新坐标
   drop (): any {
-    let timer = setInterval(()=> {
-      if (Math.max(...this.position) >= 190) {
-        clearInterval(timer);
+    this.timer = setInterval(()=> {
+      if (this.position.some(item => this.bottomLines.indexOf(item + 10) >= 0)) {
+        clearInterval(this.timer);
         this.getBottom = true;
         return;
       }
       this.originY += 1;
       this.getBlockPosition();
-    }, 1000)
+    }, 500)
   }
 
   dropImmediately () {
-    while (Math.max(...this.position) < 190) {
+    while (!this.position.some(item => this.bottomLines.indexOf(item + 10) >= 0)) {
       this.originY += 1;
       this.getBlockPosition();
     }
+    clearInterval(this.timer);
+    this.getBottom = true;
+    return;
   }
 
   turnLeftOrRight (left: number) {
     // 取position中的坐标余去10 之后左右为极限坐标
     left === 0 ? 
-      Math.min(...this.position.map(item => item % 10)) === 0 ? this.originX : this.originX -= 1
-      : Math.max(...this.position.map(item => item % 10)) === 9 ? this.originX : this.originX += 1
+      Math.min(...this.position.map(item => item % 10)) === 0 || this.position.some(item => this.bottomLines.indexOf(item - 1) >= 0) ? this.originX : this.originX -= 1
+      : Math.max(...this.position.map(item => item % 10)) === 9 || this.position.some(item => this.bottomLines.indexOf(item + 1) >= 0) ? this.originX : this.originX += 1
     this.getBlockPosition();
   }
 

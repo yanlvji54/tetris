@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "start": "browser-sync --server --file */**"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

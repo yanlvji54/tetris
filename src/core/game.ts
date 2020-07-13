@@ -2,8 +2,9 @@ import config from '../config/config';
 import $ from 'jquery-ts';
 import { Border } from './border';
 import { Block } from './block';
+// 改进方案： 加一个 WATCH 监听 border 和 block
 export class Game {
-  border: Border;
+  border: any;
   block: any;
   init () {
     this.options();
@@ -14,14 +15,18 @@ export class Game {
     this.block = new Block();
     this.bindBlock();
     this.block.createBlock();
+    this.block.bottomLines = this.border.stacks;
   }
   bindBlock () {
     this.block = new Proxy(this.block, {
       set: (recObj:object, key:string, value:Array<number>):any => {
         recObj[key] = value;
-        if (key === 'position') this.border.drawBlock(value);
+        if (key === 'position') {
+          this.border.drawBlock(value);
+        }
         if (key === 'getBottom'){ 
           this.border.blockGetBottom(this.block.position);
+          if (this.border.gameOver) return this.gameOver()
           this.createBlock();
         }
         return true;
@@ -54,4 +59,8 @@ export class Game {
     }
     });
   };
+  gameOver () {
+    console.log ('游戏结束');
+    return true;
+  }
 }
